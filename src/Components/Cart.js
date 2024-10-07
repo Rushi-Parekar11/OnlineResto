@@ -3,6 +3,9 @@ import "../Style/Cart.scss"
 import "../Components/Ordercart"
 import { RxCrossCircled } from "react-icons/rx";
 import Ordercart from '../Components/Ordercart';
+import {motion} from "framer-motion"
+import {fadeIn} from "../Variants.js"
+
 
 function Cart({cart,conditionfun}) {
 
@@ -12,10 +15,10 @@ function Cart({cart,conditionfun}) {
 
   const totalPrice = cart.reduce((acc, dataa) => acc + dataa.price, 0);
 
-
   return (
     <>
-      <div id='cartbox' className="cartmainbox">
+      <motion.div   initial='hidden' variants={fadeIn('left',1.2)} whileInView={'show'}  viewport={{once:false,amount:0.7}}
+ id='cartbox' className="cartmainbox">
 
         <div className="cartmain">
           <h4 className='cartnm' >My Order</h4>
@@ -24,9 +27,16 @@ function Cart({cart,conditionfun}) {
 
         <div className="orderitem">
         
-        {cart.map((cartdata)=>(
+      {
+        cart.length===0 ?(
+          <h2 style={{overflow:'hidden'}}>Cart is empty !</h2>
+        ) : (
+          cart.map((cartdata)=>(
           <Ordercart cartdata={cartdata} key={cartdata.id} getidfordelet={removeEntryById}/>
-        ))}
+        ))
+        )
+      }
+        
           
           
 
@@ -41,7 +51,7 @@ function Cart({cart,conditionfun}) {
         </div>
 
 
-      </div>
+      </motion.div>
       cart
     </>
   )
